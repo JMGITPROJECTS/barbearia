@@ -170,7 +170,10 @@ function Clientes() {
           <Form.Item
             label="CPF"
             name="cpf"
-            rules={[{ required: true, message: "Digite o seu CPF" }]}
+            rules={[
+              { required: true, message: "Digite o seu CPF" },
+              { min: 14, message: "CPF Incompleto"}
+            ]}
           >
             <Input
               maxLength={14}
