@@ -6,6 +6,7 @@ import {
   deleteCliente,
   updateCliente,
 } from "../../services/clientService";
+import styles from './Clients.module.css';
 import type { Cliente } from "../../types";
 import { formatarCPF, formatarTelefone } from "../../utils/masks";
 import { useWindowSize } from "../../utils/useWindowSize";
@@ -94,7 +95,7 @@ function Clientes() {
   ];
 
   return (
-    <div style={{ padding: 24 }}>
+    <div className={styles.page}>
       <Button
         type="primary"
         onClick={() => {
@@ -111,12 +112,7 @@ function Clientes() {
           {listaClientes.map((cliente) => (
             <div
               key={cliente.id}
-              style={{
-                border: "1px solid #303030",
-                borderRadius: 8,
-                padding: 16,
-                marginBottom: 12,
-              }}
+              className={styles.card}
             >
               <p>
                 <strong>Nome:</strong> {cliente.nome}
