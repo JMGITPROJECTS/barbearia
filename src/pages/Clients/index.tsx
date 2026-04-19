@@ -6,10 +6,11 @@ import {
   deleteCliente,
   updateCliente,
 } from "../../services/clientService";
-import styles from './Clients.module.css';
+import styles from "./Clients.module.css";
 import type { Cliente } from "../../types";
 import { formatarCPF, formatarTelefone } from "../../utils/masks";
 import { useWindowSize } from "../../utils/useWindowSize";
+import ClienteCard from "../../components/ClienteCard";
 
 function Clientes() {
   const [listaClientes, setListaClientes] = useState<Cliente[]>(getClientes());
@@ -110,35 +111,12 @@ function Clientes() {
       {isMobile ? (
         <div>
           {listaClientes.map((cliente) => (
-            <div
+            <ClienteCard
               key={cliente.id}
-              className={styles.card}
-            >
-              <p>
-                <strong>Nome:</strong> {cliente.nome}
-              </p>
-              <p>
-                <strong>CPF:</strong> {cliente.cpf}
-              </p>
-              <p>
-                <strong>Telefone:</strong> {cliente.telefone}
-              </p>
-              <p>
-                <strong>E-mail:</strong> {cliente.email}
-              </p>
-              <div>
-                <Button type="link" onClick={() => handleEditar(cliente)}>
-                  Editar
-                </Button>
-                <Button
-                  type="link"
-                  danger
-                  onClick={() => handleDelete(cliente.id)}
-                >
-                  Excluir
-                </Button>
-              </div>
-            </div>
+              cliente={cliente}
+              onEditar={() => handleEditar(cliente)}
+              onExcluir={() => handleDelete(cliente.id)}
+            />
           ))}
         </div>
       ) : (
@@ -168,7 +146,7 @@ function Clientes() {
             name="cpf"
             rules={[
               { required: true, message: "Digite o seu CPF" },
-              { min: 14, message: "CPF Incompleto"}
+              { min: 14, message: "CPF Incompleto" },
             ]}
           >
             <Input
