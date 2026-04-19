@@ -51,6 +51,25 @@ function Register() {
           <Input.Password />
         </Form.Item>
 
+        <Form.Item
+          label="Confirmar Senha"
+          name="confirmarSenha"
+          dependencies={["senha"]}
+          rules={[
+            { required: true, message: "Confirme sua senha" },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue("senha") === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error("As senhas não coincidem"));
+              },
+            }),
+          ]}
+        >
+          <Input.Password />
+        </Form.Item>
+
         <Button type="primary" htmlType="submit">
           Cadastrar
         </Button>

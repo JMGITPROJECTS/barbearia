@@ -1,4 +1,4 @@
-import { Table, Button, Modal, Form, Input, message } from "antd";
+import { Table, Button, Modal, Form,  message } from "antd";
 import { useState } from "react";
 import {
   getClientes,
@@ -8,9 +8,9 @@ import {
 } from "../../services/clientService";
 import styles from "./Clients.module.css";
 import type { Cliente } from "../../types";
-import { formatarCPF, formatarTelefone } from "../../utils/masks";
 import { useWindowSize } from "../../utils/useWindowSize";
 import ClienteCard from "../../components/ClienteCard";
+import ClienteForm from "../../components/ClienteForm";
 
 function Clientes() {
   const [listaClientes, setListaClientes] = useState<Cliente[]>(getClientes());
@@ -132,59 +132,12 @@ function Clientes() {
         }}
         footer={null}
       >
-        <Form form={form} onFinish={handleSubmit}>
-          <Form.Item
-            label="Nome"
-            name="nome"
-            rules={[{ required: true, message: "Digite o seu nome" }]}
-          >
-            <Input />
-          </Form.Item>
-
-          <Form.Item
-            label="CPF"
-            name="cpf"
-            rules={[
-              { required: true, message: "Digite o seu CPF" },
-              { min: 14, message: "CPF Incompleto" },
-            ]}
-          >
-            <Input
-              maxLength={14}
-              onChange={(e) =>
-                form.setFieldValue("cpf", formatarCPF(e.target.value))
-              }
-            />
-          </Form.Item>
-
-          <Form.Item
-            label="Telefone"
-            name="telefone"
-            rules={[{ required: true, message: "Digite o seu telefone" }]}
-          >
-            <Input
-              maxLength={15}
-              onChange={(e) =>
-                form.setFieldValue("telefone", formatarTelefone(e.target.value))
-              }
-            />
-          </Form.Item>
-
-          <Form.Item
-            label="E-mail"
-            name="email"
-            rules={[
-              { required: true, message: "Digite o seu E-mail" },
-              { type: "email", message: "E-mail inválido" },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-
-          <Button type="primary" htmlType="submit">
-            {editandoCliente ? "Atualizar Dados" : "Cadastrar"}
-          </Button>
-        </Form>
+        <ClienteForm
+        form={form}
+        onFinish={handleSubmit}
+        editando={!!editandoCliente}
+        />
+        
       </Modal>
     </div>
   );
