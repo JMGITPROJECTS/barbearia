@@ -34,7 +34,9 @@ export function loginUser(email: string, senha: string) {
   if (!senhaCorreta) {
     return { sucesso: false, mensagem: "Senha incorreta" };
   }
-  
-  localStorage.setItem("usuarioLogado", usuarioEncontrado.nome);
+
+  const nomeExibicao = usuarioEncontrado.nome.split(" ").slice(0, 2).join(" ");
+  localStorage.setItem("usuarioLogado", nomeExibicao);
+
   return { sucesso: true, mensagem: "Logado com sucesso" };
 }

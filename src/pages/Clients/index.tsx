@@ -1,4 +1,4 @@
-import { Table, Button, Modal, Form, message } from "antd";
+import { Table, Button, Modal, Form, Input, message } from "antd";
 import { useState } from "react";
 import {
   getClientes,
@@ -18,7 +18,14 @@ function Clientes() {
   const [listaClientes, setListaClientes] = useState<Cliente[]>(getClientes());
   const [modalAberto, setModalAberto] = useState(false);
   const [editandoCliente, setEditandoCliente] = useState<Cliente | null>(null);
-  const [form] = Form.useForm(); // o Ant Deisgn Form tem prop de initialValues que faz os valores já vim  quando for na edição mas pra funcionar com dados que mudam preciso usar o form do Ant Design
+  const [form] = Form.useForm();
+  const [busca, setBusca] = useState("");
+  const clientesFiltrados = listaClientes.filter(
+    (cliente) =>
+      cliente.nome.toLowerCase().includes(busca.toLowerCase()) ||
+      cliente.cpf.includes(busca) ||
+      cliente.email.toLowerCase().includes(busca.toLowerCase()),
+  );
   const larguraTela = useWindowSize();
   const isMobile = larguraTela < 768;
 
@@ -115,9 +122,23 @@ function Clientes() {
             </Button>
           </div>
 
+          <Input
+            placeholder="Buscar por nome, CPF ou e-mail..."
+            value={busca}
+            onChange={(e) => setBusca(e.target.value)}
+            allowClear
+            className={styles.searchInput}
+          />
+          <p className={styles.counter}>
+            {clientesFiltrados.length}{" "}
+            {clientesFiltrados.length === 1
+              ? "cliente encontrado"
+              : "clientes encontrados"}
+          </p>
+
           {isMobile ? (
             <div>
-              {listaClientes.map((cliente) => (
+              {clientesFiltrados.map((cliente) => (
                 <ClienteCard
                   key={cliente.id}
                   cliente={cliente}
@@ -127,7 +148,12 @@ function Clientes() {
               ))}
             </div>
           ) : (
-            <Table dataSource={listaClientes} columns={colunas} rowKey="id" />
+            <Table
+              dataSource={clientesFiltrados}
+              columns={colunas}
+              rowKey="id"
+              locale={{ emptyText: "Nenhum cliente cadastrado ainda" }}
+            />
           )}
 
           <Modal

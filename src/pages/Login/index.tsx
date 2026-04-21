@@ -15,7 +15,8 @@ function Login() {
     if (!resultado.sucesso) {
       message.error(resultado.mensagem);
     } else {
-      message.success(resultado.mensagem);
+      const nome = localStorage.getItem("usuarioLogado");
+      message.success(`Bem-vindo, ${nome}!`);
       navigate("/clientes");
     }
   };
