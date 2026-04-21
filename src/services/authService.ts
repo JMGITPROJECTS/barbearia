@@ -34,6 +34,7 @@ export function loginUser(email: string, senha: string) {
   if (!senhaCorreta) {
     return { sucesso: false, mensagem: "Senha incorreta" };
   }
-
+  
+  localStorage.setItem('usuarioLogado', email);
   return { sucesso: true, mensagem: "Logado com sucesso" };
 }

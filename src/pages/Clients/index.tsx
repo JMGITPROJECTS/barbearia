@@ -11,6 +11,7 @@ import type { Cliente } from "../../types";
 import { useWindowSize } from "../../utils/useWindowSize";
 import ClienteCard from "../../components/ClienteCard";
 import ClienteForm from "../../components/ClienteForm";
+import AppLayout from "../../components/AppLayout";
 
 function Clientes() {
   const [listaClientes, setListaClientes] = useState<Cliente[]>(getClientes());
@@ -96,6 +97,7 @@ function Clientes() {
   ];
 
   return (
+    <AppLayout>
     <div className={styles.page}>
       <Button
         type="primary"
@@ -140,6 +142,7 @@ function Clientes() {
         
       </Modal>
     </div>
+    </AppLayout>
   );
 }
 

@@ -1,7 +1,6 @@
 import { Form, Input, Button } from 'antd';
 import type { FormInstance } from 'antd';
-import { formatarCPF, formatarTelefone } from '../../utils/masks';
-
+import { formatarCPF, formatarTelefone, validarCPF } from '../../utils/masks';
 interface ClienteFormProps{
     form: FormInstance;
     onFinish: (valores:{nome: string; cpf: string; telefone:string; email: string}) => void;
@@ -25,6 +24,15 @@ function ClienteForm(props: ClienteFormProps) {
             rules={[
               { required: true, message: "Digite o seu CPF" },
               { min: 14, message: "CPF Incompleto" },
+              () => ({
+                validator(_, value) {
+                  if (!value || validarCPF(value)){
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error("CPF inválido"))
+                }
+              })
+
             ]}
           >
             <Input
