@@ -11,13 +11,16 @@ function AuthLayout(props: AuthLayoutProps) {
   return (
     <div className={styles.page}>
       <div className={styles.formWrapper}>
-        {props.children}
-        <p>
-          {props.linkLabel}{' '}
-          <span onClick={props.linkAction} className={styles.link}>
-            {props.linkText}
-          </span>
-        </p>
+        <div className={styles.card}>
+          <h1 className={styles.title}>Barbearia</h1>
+          {props.children}
+          <p className={styles.linkWrapper}>
+            {props.linkLabel}{' '}
+            <span onClick={props.linkAction} className={styles.link}>
+              {props.linkText}
+            </span>
+          </p>
+        </div>
       </div>
     </div>
   );

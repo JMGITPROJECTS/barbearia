@@ -1,4 +1,4 @@
-import { Table, Button, Modal, Form,  message } from "antd";
+import { Table, Button, Modal, Form, message } from "antd";
 import { useState } from "react";
 import {
   getClientes,
@@ -12,6 +12,7 @@ import { useWindowSize } from "../../utils/useWindowSize";
 import ClienteCard from "../../components/ClienteCard";
 import ClienteForm from "../../components/ClienteForm";
 import AppLayout from "../../components/AppLayout";
+import PageTransition from "../../components/PageTransition";
 
 function Clientes() {
   const [listaClientes, setListaClientes] = useState<Cliente[]>(getClientes());
@@ -97,52 +98,56 @@ function Clientes() {
   ];
 
   return (
-    <AppLayout>
-    <div className={styles.page}>
-      <Button
-        type="primary"
-        onClick={() => {
-          setEditandoCliente(null);
-          form.resetFields();
-          setModalAberto(true);
-        }}
-      >
-        Novo Cliente
-      </Button>
+    <PageTransition>
+      <AppLayout>
+        <div className={styles.page}>
+          <div className={styles.pageHeader}>
+            <h1 className={styles.pageTitle}>Clientes</h1>
+            <Button
+              type="primary"
+              onClick={() => {
+                setEditandoCliente(null);
+                form.resetFields();
+                setModalAberto(true);
+              }}
+            >
+              + Novo Cliente
+            </Button>
+          </div>
 
-      {isMobile ? (
-        <div>
-          {listaClientes.map((cliente) => (
-            <ClienteCard
-              key={cliente.id}
-              cliente={cliente}
-              onEditar={() => handleEditar(cliente)}
-              onExcluir={() => handleDelete(cliente.id)}
+          {isMobile ? (
+            <div>
+              {listaClientes.map((cliente) => (
+                <ClienteCard
+                  key={cliente.id}
+                  cliente={cliente}
+                  onEditar={() => handleEditar(cliente)}
+                  onExcluir={() => handleDelete(cliente.id)}
+                />
+              ))}
+            </div>
+          ) : (
+            <Table dataSource={listaClientes} columns={colunas} rowKey="id" />
+          )}
+
+          <Modal
+            title={editandoCliente ? "Editar Cliente" : "Cadastrar Cliente"}
+            open={modalAberto}
+            onCancel={() => {
+              setModalAberto(false);
+              setEditandoCliente(null); // se não tiver isso aki, depois de editar, ao clicar em "Novo Cliente" o modal vai pensar que ainda estou editando o Cliente
+            }}
+            footer={null}
+          >
+            <ClienteForm
+              form={form}
+              onFinish={handleSubmit}
+              editando={!!editandoCliente}
             />
-          ))}
+          </Modal>
         </div>
-      ) : (
-        <Table dataSource={listaClientes} columns={colunas} rowKey="id" />
-      )}
-
-      <Modal
-        title={editandoCliente ? "Editar Cliente" : "Cadastrar Cliente"}
-        open={modalAberto}
-        onCancel={() => {
-          setModalAberto(false);
-          setEditandoCliente(null); // se não tiver isso aki, depois de editar, ao clicar em "Novo Cliente" o modal vai pensar que ainda estou editando o Cliente
-        }}
-        footer={null}
-      >
-        <ClienteForm
-        form={form}
-        onFinish={handleSubmit}
-        editando={!!editandoCliente}
-        />
-        
-      </Modal>
-    </div>
-    </AppLayout>
+      </AppLayout>
+    </PageTransition>
   );
 }
 
