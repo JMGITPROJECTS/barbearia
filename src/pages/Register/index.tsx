@@ -32,6 +32,7 @@ function Register() {
         linkLabel="Já tem conta?"
         linkText="Faça login"
         linkAction={() => navigate("/")}
+        subtitle="Crie sua conta para começar"
       >
         <Form form={form} onFinish={handleSubmit} layout="vertical">
           <Form.Item

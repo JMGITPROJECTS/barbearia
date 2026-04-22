@@ -27,6 +27,7 @@ function Login() {
         linkLabel="Não tem conta?"
         linkText="Cadastre-se"
         linkAction={() => navigate("/cadastro")}
+        subtitle="Acesse o sistema de gestão"
       >
         <Form onFinish={handleSubmit} layout="vertical">
           <Form.Item
