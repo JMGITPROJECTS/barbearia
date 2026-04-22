@@ -38,5 +38,35 @@ export function loginUser(email: string, senha: string) {
   const nomeExibicao = usuarioEncontrado.nome.split(" ").slice(0, 2).join(" ");
   localStorage.setItem("usuarioLogado", nomeExibicao);
 
+  localStorage.setItem("emailLogado", email);
   return { sucesso: true, mensagem: "Logado com sucesso" };
+}
+
+export function changePassword(
+  email: string,
+  senhaAtual: string,
+  senhaNova: string,
+) {
+  const dados = localStorage.getItem("usuarios");
+  const usuarios: Usuario[] = dados ? JSON.parse(dados) : [];
+
+  const usuarioEncontrado = usuarios.find(
+    (itemArray) => itemArray.email === email,
+  );
+
+  if (!usuarioEncontrado)
+    return { sucesso: false, mensagem: "Usuário não encontrado" };
+
+  const senhaCorreta = bcrypt.compareSync(senhaAtual, usuarioEncontrado.senha);
+
+  if (!senhaCorreta)
+    return { sucesso: false, mensagem: "Senha atual incorreta" };
+
+  const senhaHash = bcrypt.hashSync(senhaNova, 10);
+
+  const index = usuarios.findIndex((itemArray) => itemArray.email === email);
+  usuarios[index] = { ...usuarioEncontrado, senha: senhaHash };
+  localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+  return { sucesso: true, mensagem: "Senha redefinida com sucesso!" };
 }

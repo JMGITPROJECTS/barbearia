@@ -28,6 +28,7 @@ function Login() {
         linkText="Cadastre-se"
         linkAction={() => navigate("/cadastro")}
         subtitle="Acesse o sistema de gestão"
+        bg="login"
       >
         <Form onFinish={handleSubmit} layout="vertical">
           <Form.Item

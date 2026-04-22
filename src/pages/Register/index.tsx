@@ -33,6 +33,7 @@ function Register() {
         linkText="Faça login"
         linkAction={() => navigate("/")}
         subtitle="Crie sua conta para começar"
+        bg="register"
       >
         <Form form={form} onFinish={handleSubmit} layout="vertical">
           <Form.Item
