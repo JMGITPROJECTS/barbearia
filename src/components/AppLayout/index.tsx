@@ -1,4 +1,4 @@
-import { Button, Dropdown, Modal, Form, Input, message, Progress } from "antd";
+import { Button, Dropdown, Modal, Form, Input, message, Progress, App as AntApp } from "antd";
 import { UserOutlined, KeyOutlined, LogoutOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -11,6 +11,7 @@ interface AppLayoutProps {
 }
 
 function AppLayout(props: AppLayoutProps) {
+  const { modal } = AntApp.useApp();
   const navigate = useNavigate();
   const nomeUsuario = localStorage.getItem("usuarioLogado");
   const emailUsuario = localStorage.getItem("emailLogado");
@@ -20,7 +21,7 @@ function AppLayout(props: AppLayoutProps) {
   const forcaSenha = senhaDigitada ? calcularForcaSenha(senhaDigitada) : null;
 
   const handleSair = () => {
-    Modal.confirm({
+    modal.confirm({
       title: "Deseja sair do sistema?",
       okText: "Sair",
       cancelText: "Cancelar",

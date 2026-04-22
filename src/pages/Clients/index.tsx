@@ -1,4 +1,4 @@
-import { Table, Button, Modal, Form, Input, message } from "antd";
+import { Table, Button, Modal, Form, Input, message, App as AntApp } from "antd";
 import { useState } from "react";
 import {
   getClientes,
@@ -15,6 +15,7 @@ import AppLayout from "../../components/AppLayout";
 import PageTransition from "../../components/PageTransition";
 
 function Clientes() {
+  const { modal } = AntApp.useApp();
   const [listaClientes, setListaClientes] = useState<Cliente[]>(getClientes());
   const [modalAberto, setModalAberto] = useState(false);
   const [editandoCliente, setEditandoCliente] = useState<Cliente | null>(null);
@@ -63,7 +64,7 @@ function Clientes() {
   };
 
   const handleDelete = (id: number) => {
-    Modal.confirm({
+    modal.confirm({
       title: "Tem certeza que deseja excluir?",
       content: "Essa ação não pode ser desfeita.",
       cancelText: "Cancelar",
