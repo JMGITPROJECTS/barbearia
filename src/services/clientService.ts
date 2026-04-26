@@ -17,7 +17,7 @@ export function addCliente(
   if (cpfExistente) return { sucesso: false, mensagem: "CPF já cadastrado!" };
 
   const emailExistente = clientes.find(
-    (itemArray) => itemArray.email === email,
+    (itemArray) => itemArray.email.trim().toLocaleLowerCase() === email.trim().toLocaleLowerCase(),
   );
   if (emailExistente)
     return { sucesso: false, mensagem: "E-mail já cadastrado!" };
@@ -33,7 +33,7 @@ export function addCliente(
   clientes.push(novoCliente);
   localStorage.setItem("clientes", JSON.stringify(clientes));
 
-  return { sucesso: true, mensagem: "Cliente adicionado com sucesso" };
+  return { sucesso: true, mensagem: "Cliente adicionado com sucesso!" };
 }
 
 export function updateCliente(clienteAtualizado: Cliente) {
@@ -43,7 +43,7 @@ export function updateCliente(clienteAtualizado: Cliente) {
   if (cpfExistente) return { sucesso: false, mensagem: "CPF já cadastrado por outro cliente!" };
 
   const emailExistente = clientes.find(
-    (itemArray) => itemArray.email === clienteAtualizado.email && itemArray.id !== clienteAtualizado.id);
+    (itemArray) => itemArray.email.trim().toLocaleLowerCase() === clienteAtualizado.email.trim().toLocaleLowerCase() && itemArray.id !== clienteAtualizado.id);
   if (emailExistente) return { sucesso: false, mensagem: "E-mail já cadastrado por outro cliente!" };
 
 
