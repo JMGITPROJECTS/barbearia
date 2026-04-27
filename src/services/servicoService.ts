@@ -14,15 +14,15 @@ export function addServico(dados: Omit<Servico, "id" | "ativo">): Resultado {
   const nomeServicoExistente = servicos.find(
     (itemArray) =>
       itemArray.nome.trim().toLocaleLowerCase() ===
-      dados.nome.trim().toLocaleLowerCase(),   
+      dados.nome.trim().toLocaleLowerCase(),
   );
   if (nomeServicoExistente)
     return { sucesso: false, mensagem: "Nome de Serviço já cadastrado" };
 
   const novoServico: Servico = {
     id: Date.now(),
-    ...dados,        
-    ativo: true,        
+    ...dados,
+    ativo: true,
   };
 
   servicos.push(novoServico);
@@ -30,7 +30,7 @@ export function addServico(dados: Omit<Servico, "id" | "ativo">): Resultado {
   return { sucesso: true, mensagem: "Serviço adicionado com sucesso!" };
 }
 
-export function updateServico(servicoAtualizado: Servico) : Resultado {
+export function updateServico(servicoAtualizado: Servico): Resultado {
   const servicos = getServicos();
   const nomeServicoExistente = servicos.find(
     (itemArray) =>

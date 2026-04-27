@@ -1,7 +1,6 @@
 import bcrypt from "bcryptjs";
 import type { Usuario, Resultado } from "../types";
 
-
 const CHAVE_STORAGE = "usuarios";
 
 export function getUsuarios(): Usuario[] {
@@ -10,7 +9,11 @@ export function getUsuarios(): Usuario[] {
   return usuarios;
 }
 
-export function registerUser(nome: string, email: string, senha: string) : Resultado {
+export function registerUser(
+  nome: string,
+  email: string,
+  senha: string,
+): Resultado {
   const usuarios = getUsuarios();
   const usuarioEncontrado = usuarios.find(
     (itemArray) => itemArray.email === email,
@@ -27,7 +30,7 @@ export function registerUser(nome: string, email: string, senha: string) : Resul
   return { sucesso: true, mensagem: "Usuário cadastrado com sucesso!" };
 }
 
-export function loginUser(email: string, senha: string) : Resultado{
+export function loginUser(email: string, senha: string): Resultado {
   const usuarios = getUsuarios();
   const usuarioEncontrado = usuarios.find(
     (itemArray) => itemArray.email === email,
@@ -53,8 +56,7 @@ export function changePassword(
   email: string,
   senhaAtual: string,
   senhaNova: string,
-) : Resultado {
-  
+): Resultado {
   const usuarios = getUsuarios();
   const usuarioEncontrado = usuarios.find(
     (itemArray) => itemArray.email === email,
