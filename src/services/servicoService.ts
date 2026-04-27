@@ -1,4 +1,4 @@
-import type { Servico } from "../types";
+import type { Servico, Resultado } from "../types";
 
 const CHAVE_STORAGE = "servicos";
 
@@ -8,29 +8,21 @@ export function getServicos(): Servico[] {
   return servicos;
 }
 
-
-export function addServico(
-  nome: string,
-  preco: number,
-  duracao: number,
-  descricao?: string,
-) {
+export function addServico(dados: Omit<Servico, "id" | "ativo">): Resultado {
   const servicos = getServicos();
+
   const nomeServicoExistente = servicos.find(
     (itemArray) =>
       itemArray.nome.trim().toLocaleLowerCase() ===
-      nome.trim().toLocaleLowerCase(),
+      dados.nome.trim().toLocaleLowerCase(),   
   );
   if (nomeServicoExistente)
     return { sucesso: false, mensagem: "Nome de Serviço já cadastrado" };
 
   const novoServico: Servico = {
     id: Date.now(),
-    nome,
-    descricao,
-    preco,
-    duracao,
-    ativo: true,
+    ...dados,        
+    ativo: true,        
   };
 
   servicos.push(novoServico);
@@ -38,7 +30,7 @@ export function addServico(
   return { sucesso: true, mensagem: "Serviço adicionado com sucesso!" };
 }
 
-export function updateServico(servicoAtualizado: Servico) {
+export function updateServico(servicoAtualizado: Servico) : Resultado {
   const servicos = getServicos();
   const nomeServicoExistente = servicos.find(
     (itemArray) =>

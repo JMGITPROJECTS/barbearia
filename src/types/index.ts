@@ -20,3 +20,8 @@ export interface Servico {
   duracao: number;
   ativo: boolean;
 }
+
+export interface Resultado {
+  sucesso: boolean;
+  mensagem: string;
+}

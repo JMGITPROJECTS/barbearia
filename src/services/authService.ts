@@ -1,9 +1,17 @@
 import bcrypt from "bcryptjs";
-import type { Usuario } from "../types";
+import type { Usuario, Resultado } from "../types";
 
-export function registerUser(nome: string, email: string, senha: string) {
-  const dados = localStorage.getItem("usuarios");
+
+const CHAVE_STORAGE = "usuarios";
+
+export function getUsuarios(): Usuario[] {
+  const dados = localStorage.getItem(CHAVE_STORAGE);
   const usuarios: Usuario[] = dados ? JSON.parse(dados) : [];
+  return usuarios;
+}
+
+export function registerUser(nome: string, email: string, senha: string) : Resultado {
+  const usuarios = getUsuarios();
   const usuarioEncontrado = usuarios.find(
     (itemArray) => itemArray.email === email,
   );
@@ -14,14 +22,13 @@ export function registerUser(nome: string, email: string, senha: string) {
   const senhaHash = bcrypt.hashSync(senha, 10);
   const novoUsuario = { nome, email, senha: senhaHash };
   usuarios.push(novoUsuario);
-  localStorage.setItem("usuarios", JSON.stringify(usuarios));
+  localStorage.setItem(CHAVE_STORAGE, JSON.stringify(usuarios));
 
   return { sucesso: true, mensagem: "Usuário cadastrado com sucesso!" };
 }
 
-export function loginUser(email: string, senha: string) {
-  const dados = localStorage.getItem("usuarios");
-  const usuarios: Usuario[] = dados ? JSON.parse(dados) : [];
+export function loginUser(email: string, senha: string) : Resultado{
+  const usuarios = getUsuarios();
   const usuarioEncontrado = usuarios.find(
     (itemArray) => itemArray.email === email,
   );
@@ -46,10 +53,9 @@ export function changePassword(
   email: string,
   senhaAtual: string,
   senhaNova: string,
-) {
-  const dados = localStorage.getItem("usuarios");
-  const usuarios: Usuario[] = dados ? JSON.parse(dados) : [];
-
+) : Resultado {
+  
+  const usuarios = getUsuarios();
   const usuarioEncontrado = usuarios.find(
     (itemArray) => itemArray.email === email,
   );
@@ -66,7 +72,7 @@ export function changePassword(
 
   const index = usuarios.findIndex((itemArray) => itemArray.email === email);
   usuarios[index] = { ...usuarioEncontrado, senha: senhaHash };
-  localStorage.setItem("usuarios", JSON.stringify(usuarios));
+  localStorage.setItem(CHAVE_STORAGE, JSON.stringify(usuarios));
 
   return { sucesso: true, mensagem: "Senha redefinida com sucesso!" };
 }
