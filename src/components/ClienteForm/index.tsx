@@ -1,6 +1,7 @@
 import { Form, Input, Button } from 'antd';
 import type { FormInstance } from 'antd';
 import { formatarCPF, formatarTelefone, validarCPF } from '../../utils/masks';
+
 interface ClienteFormProps{
     form: FormInstance;
     onFinish: (valores:{nome: string; cpf: string; telefone:string; email: string}) => void;

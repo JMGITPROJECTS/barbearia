@@ -47,12 +47,7 @@ function Clientes() {
         setEditandoCliente(null);
       }
     } else {
-      const resultado = addCliente(
-        valores.nome,
-        valores.cpf,
-        valores.telefone,
-        valores.email,
-      );
+      const resultado = addCliente(valores);
       if (!resultado.sucesso) {
         message.error(resultado.mensagem);
       } else {
