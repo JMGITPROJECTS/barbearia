@@ -1,6 +1,7 @@
 import { Form, Input, InputNumber, Button } from "antd";
 import type { FormInstance } from "antd";
 import type { Servico } from "../../types";
+import styles from "./ServicoForm.module.css";
 
 interface ServicoFormProps {
   form: FormInstance;
@@ -28,7 +29,13 @@ function ServicoForm(props: ServicoFormProps) {
         name="preco"
         rules={[{ required: true, message: "Digite o preço do serviço!" }]}
       >
-        <InputNumber min={0} step={1} precision={2} prefix="R$" />
+        <InputNumber
+          min={0}
+          step={1}
+          precision={2}
+          prefix="R$"
+          className={styles.fullWidth}
+        />
       </Form.Item>
 
       <Form.Item
@@ -36,7 +43,12 @@ function ServicoForm(props: ServicoFormProps) {
         name="duracao"
         rules={[{ required: true, message: "Digite o tempo em MINUTOS" }]}
       >
-        <InputNumber min={1} step={5} suffix=" min" />
+        <InputNumber
+          min={1}
+          step={5}
+          suffix=" min"
+          className={styles.fullWidth}
+        />
       </Form.Item>
 
       <Form.Item>
